@@ -1,8 +1,12 @@
 stage 'Build Docker App'
 
 node('master'){
-    git 'https://github.com/neilhunt1/Dinosaurus-SpringBoot.git'
-    dir('complete'){
-        sh 'ls -lhr'
+    docker.image('maven:3.3.3-jdk-8').inside {
+        git 'https://github.com/neilhunt1/Dinosaurus-SpringBoot.git'
+        dir('complete'){
+            sh 'ls -lhr'
+            sh 'mvn package'
+        }
     }
+
 }
