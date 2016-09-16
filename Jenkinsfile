@@ -5,6 +5,7 @@ node('master'){
         git 'https://github.com/neilhunt1/Dinosaurus-SpringBoot.git'
         sh 'ls -lhr'
         sh 'mvn package'
-    }
-
+        def myWebAppContainer = docker.build cdcdemo/mywebapp:${env.BUILD_TAG}
+        //myWebAppContainer.push()
+    }    
 }
