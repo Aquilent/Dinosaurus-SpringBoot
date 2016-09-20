@@ -1,5 +1,8 @@
 package hello;
 
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +14,13 @@ public class Application {
 
     @RequestMapping("/")
     public String home() {
-        return "Hello Docker World";
+        try {
+			return "Hello Docker World. We are running from "+Inet4Address.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return "Hello Docker World. We couldn't determine your IP address";
     }
 
     public static void main(String[] args) {
