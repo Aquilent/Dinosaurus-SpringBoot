@@ -16,7 +16,7 @@ node('master'){
         }
         myWebAppContainer.push()
     }
-    sh "aws ecs register-task-definition --family spring-boot-task --container-definitions '[{\"name\":\"spring-boot-container\",\"image\":\"218941404296.dkr.ecr.us-east-1.amazonaws.com/cdcdemo:"+env.BUILD_ID+"\",\"cpu\":1,\"portMappings\": [{\"hostPort\": 80,\"containerPort\":8080,\"protocol\":tcp}],\"memoryReservation\":512,\"essential\":true}]' --region us-east-1"
+    sh "aws ecs register-task-definition --family spring-boot-task --container-definitions '[{\"name\":\"spring-boot-container\",\"image\":\"218941404296.dkr.ecr.us-east-1.amazonaws.com/cdcdemo:"+env.BUILD_ID+"\",\"cpu\":1,\"portMappings\": [{\"hostPort\": 80,\"containerPort\":8080,\"protocol\":\"tcp\"}],\"memoryReservation\":512,\"essential\":true}]' --region us-east-1"
 
     stage 'Deploy to DEV Cluster'
 }

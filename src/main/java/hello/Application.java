@@ -15,7 +15,7 @@ public class Application {
     @RequestMapping("/")
     public String home() {
         try {
-			return "Hello Docker World. We are running from container IP2 "+Inet4Address.getLocalHost().getHostAddress();
+			return "Hello Docker World. Our container IP is "+Inet4Address.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
