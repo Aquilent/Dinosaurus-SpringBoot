@@ -15,7 +15,7 @@ public class Application {
     @RequestMapping("/")
     public String home() {
         try {
-			return "Hello Docker World. The internal IP of our container is "+Inet4Address.getLocalHost().getHostAddress();
+			return "Hello Docker World. The bridged IP of our container is "+Inet4Address.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
