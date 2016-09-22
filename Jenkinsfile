@@ -17,8 +17,9 @@ node('master'){
 //        myWebAppContainer.push()
 //    }
 	sh "rm -f ecr.json"
-    def myEcrJson = sh returnStdout: true, script: "aws ecs register-task-definition --family spring-boot-task --container-definitions '[{\"name\":\"spring-boot-container\",\"image\":\"218941404296.dkr.ecr.us-east-1.amazonaws.com/cdcdemo:85\",\"cpu\":1,\"portMappings\": [{\"hostPort\": 80,\"containerPort\":8080,\"protocol\":\"tcp\"}],\"memoryReservation\":512,\"essential\":true}]' --region us-east-1"
+    def myEcrJson = sh returnStdout: true, script: "aws ecs register-task-definition --family spring-boot-task --container-definitions '[{\"name\":\"spring-boot-container\",\"image\":\"218941404296.dkr.ecr.us-east-1.amazonaws.com/cdcdemo:85\",\"cpu\":1,\"portMappings\": [{\"hostPort\": 80,\"containerPort\":8080,\"protocol\":\"tcp\"}],\"memoryReservation\":512,\"essential\":true}]' --region us-east-1 --query 'taskDefinition[0].revision'"
 	echo "myJson IS "+myEcrJson
+	
     stage 'Deploy to DEV Cluster'
 	
 	//sh "aws ecs update-service --cluster SpringBootCluster --service spring-boot-service --task-definition spring-boot-task:"+env.BUILD_ID+" --region us-east-1"
