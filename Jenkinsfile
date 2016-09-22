@@ -18,8 +18,8 @@ node('master'){
     }
 	sh "rm -f ecr.json"
     def myRevision = sh returnStdout: true, script: "aws ecs register-task-definition --family spring-boot-task --container-definitions '[{\"name\":\"spring-boot-container\",\"image\":\"218941404296.dkr.ecr.us-east-1.amazonaws.com/cdcdemo:85\",\"cpu\":1,\"portMappings\": [{\"hostPort\": 80,\"containerPort\":8080,\"protocol\":\"tcp\"}],\"memoryReservation\":512,\"essential\":true}]' --region us-east-1 --query 'taskDefinition.revision'"
-	
+	echo "bbb"+myRevision"$$$"
 	stage 'Deploy to DEV Cluster'
 	
-	sh "aws ecs update-service --cluster SpringBootCluster --service spring-boot-service --task-definition spring-boot-task:"+myRevision+" --region us-east-1"
+	sh "aws ecs update-service --cluster SpringBootCluster --service spring-boot-service --region us-east-1 --task-definition spring-boot-task:"+myRevision+"
 }
