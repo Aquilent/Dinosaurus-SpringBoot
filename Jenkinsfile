@@ -21,5 +21,5 @@ node('master'){
 	echo "bbb"+myRevision"555555"
 	stage 'Deploy to DEV Cluster'
 	
-	sh "aws ecs update-service --cluster SpringBootCluster --service spring-boot-service --region us-east-1 --task-definition spring-boot-task:"+myRevision+"
+	sh "aws ecs update-service --cluster SpringBootCluster --service spring-boot-service --region us-east-1 --task-definition spring-boot-task:"+myRevision
 }
