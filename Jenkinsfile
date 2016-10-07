@@ -21,5 +21,5 @@ node('master'){
 	myRevision=myRevision.trim()
 	
 	stage 'Deploy to DEV Cluster'
-//	sh "aws ecs update-service --cluster SpringBootCluster --service spring-boot-service --task-definition spring-boot-task:"+myRevision+" --region us-east-1"
+	sh "aws ecs update-service --cluster SpringBootCluster --service spring-boot-service --task-definition spring-boot-task:"+myRevision+" --region us-east-1"
 }
