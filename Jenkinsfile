@@ -10,14 +10,14 @@ node('master'){
     } 
     def myWebAppContainer = docker.build 'cdcdemo:'+env.BUILD_ID
     stage 'Push and Register Container'
-    docker.withRegistry('https://218941404296.dkr.ecr.us-east-1.amazonaws.com','CDC-ECR'){
+	docker.withRegistry('https://$AWS_ACCOUNTID.dkr.ecr.us-east-1.amazonaws.com','CDC-ECR'){
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'CDC-ECR',usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-            sh 'docker login -u $USERNAME -p $PASSWORD -e none https://218941404296.dkr.ecr.us-east-1.amazonaws.com'
+            sh 'docker login -u $USERNAME -p $PASSWORD -e none https://$AWS_ACCOUNTID.dkr.ecr.us-east-1.amazonaws.com'
         }
         myWebAppContainer.push()
     }
 	sh "rm -f ecr.json"
-    def myRevision = sh returnStdout: true, script: "aws ecs register-task-definition --family spring-boot-task --container-definitions '[{\"name\":\"spring-boot-container\",\"image\":\"218941404296.dkr.ecr.us-east-1.amazonaws.com/cdcdemo:"+env.BUILD_ID+"\",\"cpu\":1,\"portMappings\": [{\"hostPort\": 80,\"containerPort\":8080,\"protocol\":\"tcp\"}],\"memoryReservation\":512,\"essential\":true}]' --region us-east-1 --query 'taskDefinition.revision'"
+    def myRevision = sh returnStdout: true, script: "aws ecs register-task-definition --family spring-boot-task --container-definitions '[{\"name\":\"spring-boot-container\",\"image\":\"$AWS_ACCOUNTID.dkr.ecr.us-east-1.amazonaws.com/cdcdemo:"+env.BUILD_ID+"\",\"cpu\":1,\"portMappings\": [{\"hostPort\": 80,\"containerPort\":8080,\"protocol\":\"tcp\"}],\"memoryReservation\":512,\"essential\":true}]' --region us-east-1 --query 'taskDefinition.revision'"
 	myRevision=myRevision.trim()
 	
 	stage 'Deploy to DEV Cluster'
